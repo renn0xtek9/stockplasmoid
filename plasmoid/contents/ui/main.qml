@@ -7,7 +7,7 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
-import "stockparser.js" as Script
+import "stockparser.js" as Stockparser
 
 Item {
 	id: mainWindow
@@ -17,14 +17,6 @@ Item {
 	Layout.preferredHeight:800
 	ListModel{
 		id: samplemodel
-			ListElement{
-				name: "TSLA"
-				cost: 267.3
-			}
-			ListElement{
-				name: "GOOGL"
-				cost: 1009.2
-			}
 	}
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
@@ -40,7 +32,7 @@ Item {
 				text: name
 				color: 'red'
 			}
-			Component.onCompleted:console.log(samplemodel.get(0).cost)
+			Component.onCompleted:Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags)
 		}
 	}
 }

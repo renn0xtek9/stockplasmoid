@@ -5,8 +5,8 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name="main"/>
   <group name="Appearance">
-    <entry name="propertyone" type="string">
-      <default>false</default>
+    <entry name="list_of_tags" type="string">
+      <default>TSLA;AAPL;GOOGL</default>
     </entry>
   </group>
 </kcfg>
