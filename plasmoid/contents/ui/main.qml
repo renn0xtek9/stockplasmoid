@@ -29,7 +29,7 @@ Item {
 			model: samplemodel
 			focus:true
 			delegate: Text{
-				text: name
+				text: name+' '+price
 				color: 'red'
 			}
 			Component.onCompleted:Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags)

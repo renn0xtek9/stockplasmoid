@@ -1,8 +1,13 @@
-
-
-function httpGet()
+function BuildUrl(symbol)
 {
-	var theUrl="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&interval=1min&apikey=4ZM6YOXJ7O7M2JFA"
+	var theUrl="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&interval=1min&apikey=4ZM6YOXJ7O7M2JFA";
+	return theUrl;
+}
+function httpGet(symbol)
+{
+	var theUrl=BuildUrl(symbol)
+	console.log("URL:")
+	console.log(theUrl)
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
 	xmlHttp.send( null );
@@ -33,7 +38,7 @@ function makeList(id,list_of_tags){
 	var stringarray=list_of_tags.split(';');
 	var arraylength=stringarray.length;
 	for (var i = 0; i < arraylength; i++) {
-		id.append({"name":stringarray[i]});
+		var record=AlphaVantageTimeSeriesDailyParse(httpGet(stringarray[i]));
+		id.append({"name":stringarray[i],"price":record[0],"increase":record[1]});
 	}
-	console.log(AlphaVantageTimeSeriesDailyParse(httpGet()));	
 }
