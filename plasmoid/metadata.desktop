@@ -1,0 +1,22 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=stockplasmoid
+Comment=A plasmoid to show stock prices
+Type=Service
+
+#This one is very important https://techbase.kde.org/Development/Tutorials/Plasma5/QML2/GettingStarted
+#X-KDE-Library=plasma_applet_tutorial 
+X-KDE-ParentApp=
+X-KDE-PluginInfo-Author=Maxime Haselbauer
+X-KDE-PluginInfo-Email=maxime.haselbauer@googlemail.com
+X-KDE-PluginInfo-License=GPL
+#This one very important
+X-KDE-PluginInfo-Name=org.kde.stockplasmoid
+X-KDE-PluginInfo-Version=2.0
+X-KDE-PluginInfo-Website=plasma.kde.org
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-RemoteLocation=
+#This one as well
+X-KDE-PluginInfo-Category=Windows and Tasks
