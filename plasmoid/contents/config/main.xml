@@ -6,7 +6,10 @@
   <kcfgfile name="main"/>
   <group name="Appearance">
     <entry name="list_of_tags" type="string">
-      <default>TSLA;AAPL;GOOGL</default>
+      <default>TSLA:Tesla Motors;AAPL:Apple;GOOGL:Google</default>
+    </entry>
+    <entry name="alphavantageapikey" type="string">
+	    <default>4ZM6YOXJ7O7M2JFA</default>
     </entry>
   </group>
 </kcfg>

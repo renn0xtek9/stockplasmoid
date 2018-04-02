@@ -15,8 +15,8 @@ Item {
 		console.log("updated called")
 		for (var i=0; i<samplemodel.count;i++)
 		{	
-			console.log(samplemodel.get(i).name)
-			var record=Stockparser.getRecordListForSymbol(samplemodel.get(i).name)
+			console.log(samplemodel.get(i).code)
+			var record=Stockparser.getRecordListForSymbol(samplemodel.get(i).code)
 			console.log(record)
 			samplemodel.get(i).price=record[0]
 			samplemodel.get(i).increase=record[1]
@@ -33,7 +33,7 @@ Item {
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
 		Layout.minimumHeight:150
-		Layout.minimumWidth:150
+		Layout.minimumWidth:300
 		ListView{
 			id: mainlistview
 			anchors.top:parent.top
@@ -59,7 +59,7 @@ Item {
 			focus:true
 			delegate: Stockdelegate{
 				itemheight:20
-				stockcode:name
+				stockcode:code
 				stockprice:price
 				stockincrease:increase
 				stockname:name
@@ -83,8 +83,8 @@ Item {
 		}
 		Timer {
 			id: updateTimer
-// 			interval: 300000		//300 000 ms =5min
-			interval: 3000
+			interval: 300000		//300 000 ms =5min
+// 			interval: 3000
 			repeat: true
 			running: true
 			triggeredOnStart: true

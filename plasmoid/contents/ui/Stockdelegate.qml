@@ -23,9 +23,15 @@ PlasmaComponents.ListItem {
 		state: "positive"
 		height:itemheight
 		PlasmaComponents.Label{
-			id: lbl_stockncode
-			text: stockcode
+			id: lbl_stockname
+			text: stockname
 			font.bold: true
+			height:parent.height
+		}
+		PlasmaComponents.Label{
+			id: lbl_stockcode 
+			text: '('+stockcode+')'
+			font.bold: false 
 			height:parent.height
 		}
 		Item{

@@ -39,11 +39,17 @@ function getRecordListForSymbol(symbol)
 
 
 function makeList(id,list_of_tags){
-	var stringarray=list_of_tags.split(';');
+	var stringarray=list_of_tags.split(';');	
 	var arraylength=stringarray.length;
 	for (var i = 0; i < arraylength; i++) {
-		var record=AlphaVantageTimeSeriesDailyParse(httpGet(stringarray[i]));
-		id.append({"name":stringarray[i],"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
+		var nameandcode=stringarray[i].split(':');
+		var name=nameandcode[1];
+		var code=nameandcode[0];
+		console.log(stringarray[i])
+		console.log(name)
+		console.log(code)
+		var record=AlphaVantageTimeSeriesDailyParse(httpGet(code));
+		id.append({"name":name,"code":code,"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
 	}
 }
 // Formatting
