@@ -32,11 +32,9 @@ function AlphaVantageTimeSeriesDailyParse(jsonanswer)
 	var ret=[value_at_close,value_at_close/value_at_open,increase];
 	return ret;
 }
-function isIncreaseing(increase)
+function getRecordListForSymbol(symbol)
 {
-	if (increase>0)
-		return true
-	return false
+	return AlphaVantageTimeSeriesDailyParse(httpGet(symbol))
 }
 
 
@@ -48,8 +46,14 @@ function makeList(id,list_of_tags){
 		id.append({"name":stringarray[i],"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
 	}
 }
-
+// Formatting
 function FormatPrice(price){
 	var formatedprice=parseFloat(price).toFixed(2);
 	return formatedprice
+}
+function isIncreaseing(increase)
+{
+	if (increase>0)
+		return true
+	return false
 }

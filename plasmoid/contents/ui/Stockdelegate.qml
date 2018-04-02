@@ -66,6 +66,5 @@ PlasmaComponents.ListItem {
 					target: lbl_stockprice; color:"red"}
 			}
 		]
-// 		Component.onCompleted:{console.log(stockisincreasing);console.log(state)}
 	}
 }
