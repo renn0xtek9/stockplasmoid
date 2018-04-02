@@ -12,22 +12,25 @@ import "stockparser.js" as Stockparser
 Item {
 	id: mainWindow
 	Plasmoid.toolTipMainText: i18n("Show stock prices using AlphaVantage API")
-	Plasmoid.switchWidth: units.gridUnit * 10
-	Plasmoid.switchHeight: units.gridUnit * 10	
-	Layout.preferredHeight:800
+// 	Plasmoid.switchWidth: units.gridUnit * 10
+// 	Plasmoid.switchHeight: units.gridUnit * 10	
+// 	Layout.preferredHeight:800
 	ListModel{
 		id: samplemodel
 	}
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
-// 		Layout.minimumHeight:300
-// 		Layout.minimumWidth:300
+		Layout.minimumHeight:150
+		Layout.minimumWidth:300
 // 		Layout.fillHeight : true
 		ListView{
 			id: mainlistview
-// 			anchors.top:parent.top
-// 			width:parent.width
-			anchors.fill:parent
+			anchors.top:parent.top
+			anchors.left:parent.left
+			width:parent.width
+// 			Layout.fillHeight: true
+			
+// 			anchors.fill:parent
 			model: samplemodel
 			focus:true
 			delegate: Stockdelegate{
@@ -45,6 +48,20 @@ Item {
 // 				color: 'red'
 // 			}
 			Component.onCompleted:Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags)
+			onCountChanged:{
+				var root = mainlistview.visibleChildren[0]
+				var listViewHeight = 0
+				var listViewWidth = 0
+
+				// iterate over each delegate item to get their sizes
+				for (var i = 0; i < root.visibleChildren.length; i++) {
+					listViewHeight += root.visibleChildren[i].height
+					listViewWidth  = Math.max(listViewWidth, root.visibleChildren[i].width)
+				}
+
+				mainlistview.height = listViewHeight
+// 				mainlistview.width = listViewWidth
+			}
 		}
 	}
 }

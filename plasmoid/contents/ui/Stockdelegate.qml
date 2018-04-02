@@ -14,6 +14,7 @@ PlasmaComponents.ListItem {
 	property string stockincrease: "99.9"
 	property bool stockisincreasing: true
 	property int itemheight: 20
+	height: itemheight
 	width: parent.width	
 	RowLayout{
 		id: stockitemlayout
