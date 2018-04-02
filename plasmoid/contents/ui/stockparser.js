@@ -45,9 +45,9 @@ function makeList(id,list_of_tags){
 		var nameandcode=stringarray[i].split(':');
 		var name=nameandcode[1];
 		var code=nameandcode[0];
-		console.log(stringarray[i])
-		console.log(name)
-		console.log(code)
+// 		console.log(stringarray[i])
+// 		console.log(name)
+// 		console.log(code)
 		var record=AlphaVantageTimeSeriesDailyParse(httpGet(code));
 		id.append({"name":name,"code":code,"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
 	}

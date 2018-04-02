@@ -12,21 +12,15 @@ Item {
 	id: mainWindow
 	function updateList(id,list_of_tags)
 	{
-		console.log("updated called")
 		for (var i=0; i<samplemodel.count;i++)
 		{	
-			console.log(samplemodel.get(i).code)
 			var record=Stockparser.getRecordListForSymbol(samplemodel.get(i).code)
-			console.log(record)
 			samplemodel.get(i).price=record[0]
 			samplemodel.get(i).increase=record[1]
 			samplemodel.get(i).increasing=Stockparser.isIncreaseing(record[1])
 		}		
 	}
 	Plasmoid.toolTipMainText: i18n("Show stock prices using AlphaVantage API")
-// 	Plasmoid.switchWidth: units.gridUnit * 10
-// 	Plasmoid.switchHeight: units.gridUnit * 10	
-// 	Layout.preferredHeight:800
 	ListModel{
 		id: samplemodel
 	}
@@ -84,7 +78,6 @@ Item {
 		Timer {
 			id: updateTimer
 			interval: 300000		//300 000 ms =5min
-// 			interval: 3000
 			repeat: true
 			running: true
 			triggeredOnStart: true

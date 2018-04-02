@@ -13,7 +13,14 @@ Rectangle {
 	property alias cfg_list_of_tags: list_of_tags.text
 	ColumnLayout {
 		anchors.fill:parent
-		
+		PlasmaComponent.Label{
+			id:tagaslable
+			text:"e.g. AAPL:Apple;GOOGL:Google"
+			color: "black"
+			anchors{
+				left:parent.left
+			}
+		}
 		PlasmaComponent.TextField{
 			id: list_of_tags
 			width:parent.width
