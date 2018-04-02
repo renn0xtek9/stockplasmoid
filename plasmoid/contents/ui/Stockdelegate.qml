@@ -12,31 +12,59 @@ PlasmaComponents.ListItem {
 	property string stockname: "Tesla Motors"
 	property string stockprice: "-1.0"
 	property string stockincrease: "99.9"
-	width: parent.width
-	height: itemheight
-	
+	property bool stockisincreasing: true
+	property int itemheight: 20
+	width: parent.width	
 	RowLayout{
+		id: stockitemlayout
 		anchors.fill:parent
 		spacing: 15
-		
+		state: "positive"
+		height:itemheight
 		PlasmaComponents.Label{
 			id: lbl_stockncode
 			text: stockcode
 			font.bold: true
+			height:parent.height
+		}
+		Item{
+			id: spacer
+			Layout.fillWidth:true
 		}
 		PlasmaComponents.Label{
 			width:50
-			anchors.right:lbl_stockincrease.left
+// 			anchors.right:lbl_stockincrease.left
 			id: lbl_stockprice
 			text: Stockparser.FormatPrice(stockprice)
-			font.bold: true
+			font.bold: false
+			height:parent.height
 		}
 		PlasmaComponents.Label{
 			width:50
 			anchors.right:parent.right
 			id: lbl_stockincrease
 			text: Stockparser.FormatPrice(stockincrease)+"%"
-			font.bold: true
+			font.bold: false
+			height:parent.height
 		}
+		states: [
+			State{
+				name: "positive";
+				when: stockisincreasing==true;
+				PropertyChanges{
+					target: lbl_stockincrease;color: "green"}
+				PropertyChanges{
+					target: lbl_stockprice; color:"green"}
+			},
+			State{
+				name: "negative";
+				when: stockisincreasing==false;
+				PropertyChanges{
+					target: lbl_stockincrease;color: "red"}
+				PropertyChanges{
+					target: lbl_stockprice; color:"red"}
+			}
+		]
+// 		Component.onCompleted:{console.log(stockisincreasing);console.log(state)}
 	}
 }

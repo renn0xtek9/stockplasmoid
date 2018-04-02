@@ -20,19 +20,23 @@ Item {
 	}
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
-		Layout.minimumHeight:300
-		Layout.minimumWidth:300
-		Layout.fillHeight : true
+// 		Layout.minimumHeight:300
+// 		Layout.minimumWidth:300
+// 		Layout.fillHeight : true
 		ListView{
 			id: mainlistview
+// 			anchors.top:parent.top
+// 			width:parent.width
 			anchors.fill:parent
 			model: samplemodel
 			focus:true
 			delegate: Stockdelegate{
+				itemheight:20
 				stockcode:name
 				stockprice:price
 				stockincrease:increase
 				stockname:name
+				stockisincreasing:increasing
 			}
 				
 			

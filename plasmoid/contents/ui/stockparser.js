@@ -6,8 +6,8 @@ function BuildUrl(symbol)
 function httpGet(symbol)
 {
 	var theUrl=BuildUrl(symbol)
-	console.log("URL:")
-	console.log(theUrl)
+// 	console.log("URL:")
+// 	console.log(theUrl)
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
 	xmlHttp.send( null );
@@ -32,6 +32,12 @@ function AlphaVantageTimeSeriesDailyParse(jsonanswer)
 	var ret=[value_at_close,value_at_close/value_at_open,increase];
 	return ret;
 }
+function isIncreaseing(increase)
+{
+	if (increase>0)
+		return true
+	return false
+}
 
 
 function makeList(id,list_of_tags){
@@ -39,7 +45,7 @@ function makeList(id,list_of_tags){
 	var arraylength=stringarray.length;
 	for (var i = 0; i < arraylength; i++) {
 		var record=AlphaVantageTimeSeriesDailyParse(httpGet(stringarray[i]));
-		id.append({"name":stringarray[i],"price":record[0],"increase":record[1]});
+		id.append({"name":stringarray[i],"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
 	}
 }
 
