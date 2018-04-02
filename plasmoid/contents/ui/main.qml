@@ -21,7 +21,7 @@ Item {
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
 		Layout.minimumHeight:150
-		Layout.minimumWidth:300
+		Layout.minimumWidth:150
 // 		Layout.fillHeight : true
 		ListView{
 			id: mainlistview
@@ -31,6 +31,28 @@ Item {
 // 			Layout.fillHeight: true
 			
 // 			anchors.fill:parent
+			
+			header:Rectangle{
+				id:list_header
+				width:parent.width
+				height:50
+				color:theme.backgroundColor
+				Text{
+					anchors.horizontalCenter:parent.horizontalCenter
+					anchors.verticalCenter:parent.verticalCenter
+					id:txt_title
+					text: "Stock Prices"
+					color: theme.textColor
+
+					font.italic: true
+					font.pixelSize: 22
+				}
+			}
+					
+
+
+
+
 			model: samplemodel
 			focus:true
 			delegate: Stockdelegate{
