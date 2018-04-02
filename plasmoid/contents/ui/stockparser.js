@@ -1,21 +1,12 @@
-function BuildUrl(symbol)
+function BuildUrl(symbol,apikey)
 {
-	var theUrl="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&interval=1min&apikey=4ZM6YOXJ7O7M2JFA";
+	var theUrl="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&interval=1min&apikey="+apikey;
+// 	console.log(theUrl);
 	return theUrl;
 }
-function httpGet(symbol)
+function httpGetAsync(symbol, apikey,callback)
 {
-	var theUrl=BuildUrl(symbol);
-// 	console.log("URL:")
-// 	console.log(theUrl)
-	var xmlHttp = new XMLHttpRequest();
-	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-	xmlHttp.send( null );
-	return xmlHttp.responseText;
-}
-function httpGetAsync(symbol, callback)
-{
-	var theUrl=BuildUrl(symbol);
+	var theUrl=BuildUrl(symbol,apikey);
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() { 
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
@@ -24,55 +15,42 @@ function httpGetAsync(symbol, callback)
 	xmlHttp.open("GET", theUrl, true); // true for asynchronous 
 	xmlHttp.send(null);
 }
-function getListofStockCodes(list_of_tags)
+function getDictOfStockCodesAndNames(list_of_tags)
 {
+	var code_names_dict={};
 	var stringarray=list_of_tags.split(';');	
 	var arraylength=stringarray.length;
-	var codearray=[];
 	for (var i = 0; i < arraylength; i++) {
 		var nameandcode=stringarray[i].split(':');
-		codearray.push(nameandcode[0]);
+		code_names_dict[nameandcode[0]]=nameandcode[1];
 	}
-	return codearray;
+	return code_names_dict;	
+}
+function getListofStockCodes(list_of_tags)
+{
+	return Object.keys(getDictOfStockCodesAndNames(list_of_tags));
 }
 function AlphaVantageTimeSeriesDailyParse(jsonanswer)
 {		
 	try{
 		var obj=JSON.parse(jsonanswer)["Time Series (Daily)"];
 		var key_last_date=Object.keys(obj)[0];
+		var key_prev_date=Object.keys(obj)[1];
 		var firstelem=obj[key_last_date];
-		var value_at_close=firstelem["4. close"];
-		var value_at_open=firstelem["1. open"];
-		var increase=value_at_close/value_at_open*100.0-100.0
+		var secondelem=obj[key_prev_date];
+		var currentvalue=firstelem["4. close"];
+		var value_at_last_close=secondelem["4. close"];
+		var increase=currentvalue/value_at_last_close*100.0-100.0
 	}
 	catch(e){
 		console.log("Error while parsing answer");
-		var value_at_close="";
-		var value_at_open="";
+		var currentvalue="";
+		var value_at_last_close="";
 		var increase=0.0;
 	}
-	var ret=[value_at_close,value_at_close/value_at_open,increase];
+	var ret=[currentvalue,currentvalue/value_at_last_close,increase];
 	return ret;
 }
-function getRecordListForSymbol(symbol)
-{
-	return AlphaVantageTimeSeriesDailyParse(httpGet(symbol))
-}
-function makeList(id,list_of_tags){
-	var stringarray=list_of_tags.split(';');	
-	var arraylength=stringarray.length;
-	for (var i = 0; i < arraylength; i++) {
-		var nameandcode=stringarray[i].split(':');
-		var name=nameandcode[1];
-		var code=nameandcode[0];
-// 		console.log(stringarray[i])
-// 		console.log(name)
-// 		console.log(code)
-		var record=AlphaVantageTimeSeriesDailyParse(httpGet(code));
-		id.append({"name":name,"code":code,"price":record[0],"increase":record[1],"increasing":isIncreaseing(record[1])});
-	}
-}
-// Formatting
 function FormatPrice(price){
 	var formatedprice=parseFloat(price).toFixed(2);
 	return formatedprice

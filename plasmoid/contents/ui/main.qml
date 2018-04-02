@@ -12,47 +12,27 @@ Item {
 	id: mainWindow
 	function clearAndRecreateList(id,list_of_tags)
 	{
-		console.log("Clear and Recreate called");
 		samplemodel.clear();
 		var codearray=Stockparser.getListofStockCodes(list_of_tags);
-		console.log(codearray);
 		var codearraylength=codearray.length;
 		for (var i=0; i<codearraylength;i++)
 		{
-			Stockparser.httpGetAsync(codearray[i],insertRecordInModel);
+			Stockparser.httpGetAsync(codearray[i],plasmoid.configuration.alphavantageapikey,insertRecordInModel);
 		}
 	}
 	function insertRecordInModel(jsonanswer,symbol)
 	{
-		console.log("call back called for "+ symbol)
 		var record=Stockparser.AlphaVantageTimeSeriesDailyParse(jsonanswer);
-		var name="Stocks";
-		samplemodel.append({"name":name,"code":symbol,"price":record[0],"increase":record[1],"increasing":Stockparser.isIncreaseing(record[1])});
+		var name=Stockparser.getDictOfStockCodesAndNames(plasmoid.configuration.list_of_tags)[symbol];
+		samplemodel.append({"name":name,"code":symbol,"price":record[0],"increase":record[2],"increasing":Stockparser.isIncreaseing(record[2])});
 	}
-	
-	
-	
-	
-	function updateList(id,list_of_tags)
-	{
-		for (var i=0; i<samplemodel.count;i++)
-		{	
-			var record=Stockparser.getRecordListForSymbol(samplemodel.get(i).code)
-			samplemodel.get(i).price=record[0]
-			samplemodel.get(i).increase=record[1]
-			samplemodel.get(i).increasing=Stockparser.isIncreaseing(record[1])
-		}		
-	}
-	
-	
 	Plasmoid.toolTipMainText: i18n("Show stock prices using AlphaVantage API")
 	ListModel{
 		id: samplemodel
 	}
 	function configChanged()
 	{
-		console.log("config changed call")
-		Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags);
+		clearAndRecreateList(samplemodel,plasmoid.configuration.list_of_tags);
 	}
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
