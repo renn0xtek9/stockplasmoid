@@ -10,6 +10,29 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 import "stockparser.js" as Stockparser
 Item {
 	id: mainWindow
+	function clearAndRecreateList(id,list_of_tags)
+	{
+		console.log("Clear and Recreate called");
+		samplemodel.clear();
+		var codearray=Stockparser.getListofStockCodes(list_of_tags);
+		console.log(codearray);
+		var codearraylength=codearray.length;
+		for (var i=0; i<codearraylength;i++)
+		{
+			Stockparser.httpGetAsync(codearray[i],insertRecordInModel);
+		}
+	}
+	function insertRecordInModel(jsonanswer,symbol)
+	{
+		console.log("call back called for "+ symbol)
+		var record=Stockparser.AlphaVantageTimeSeriesDailyParse(jsonanswer);
+		var name="Stocks";
+		samplemodel.append({"name":name,"code":symbol,"price":record[0],"increase":record[1],"increasing":Stockparser.isIncreaseing(record[1])});
+	}
+	
+	
+	
+	
 	function updateList(id,list_of_tags)
 	{
 		for (var i=0; i<samplemodel.count;i++)
@@ -20,9 +43,16 @@ Item {
 			samplemodel.get(i).increasing=Stockparser.isIncreaseing(record[1])
 		}		
 	}
+	
+	
 	Plasmoid.toolTipMainText: i18n("Show stock prices using AlphaVantage API")
 	ListModel{
 		id: samplemodel
+	}
+	function configChanged()
+	{
+		console.log("config changed call")
+		Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags);
 	}
 	Plasmoid.fullRepresentation:  Item{
 		id: mainrepresentation
@@ -59,7 +89,10 @@ Item {
 				stockname:name
 				stockisincreasing:increasing
 			}
-			Component.onCompleted:Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags)
+			Component.onCompleted:{
+				mainWindow.clearAndRecreateList(samplemodel,plasmoid.configuration.list_of_tags)
+// 				Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags);
+			}
 			onCountChanged:{
 				var root = mainlistview.visibleChildren[0]
 				var listViewHeight = 0
@@ -80,9 +113,13 @@ Item {
 			interval: 300000		//300 000 ms =5min
 			repeat: true
 			running: true
-			triggeredOnStart: true
-			onTriggered: mainWindow.updateList(samplemodel,plasmoid.configuration.list_of_tags)
+			triggeredOnStart: false
+			onTriggered: mainWindow.clearAndRecreateList(samplemodel,plasmoid.configuration.list_of_tags)
 		}
+		
 	}
+		Component.onCompleted:{
+			plasmoid.addEventListener('ConfigChanged', mainWindow.configChanged); //Every time the user changes the config, call the function configChanged at top of this script
+		}
 }
 

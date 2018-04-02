@@ -5,13 +5,35 @@ function BuildUrl(symbol)
 }
 function httpGet(symbol)
 {
-	var theUrl=BuildUrl(symbol)
+	var theUrl=BuildUrl(symbol);
 // 	console.log("URL:")
 // 	console.log(theUrl)
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
 	xmlHttp.send( null );
 	return xmlHttp.responseText;
+}
+function httpGetAsync(symbol, callback)
+{
+	var theUrl=BuildUrl(symbol);
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() { 
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+		callback(xmlHttp.responseText,symbol);
+	}
+	xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+	xmlHttp.send(null);
+}
+function getListofStockCodes(list_of_tags)
+{
+	var stringarray=list_of_tags.split(';');	
+	var arraylength=stringarray.length;
+	var codearray=[];
+	for (var i = 0; i < arraylength; i++) {
+		var nameandcode=stringarray[i].split(':');
+		codearray.push(nameandcode[0]);
+	}
+	return codearray;
 }
 function AlphaVantageTimeSeriesDailyParse(jsonanswer)
 {		
@@ -36,8 +58,6 @@ function getRecordListForSymbol(symbol)
 {
 	return AlphaVantageTimeSeriesDailyParse(httpGet(symbol))
 }
-
-
 function makeList(id,list_of_tags){
 	var stringarray=list_of_tags.split(';');	
 	var arraylength=stringarray.length;
