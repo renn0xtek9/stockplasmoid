@@ -28,10 +28,18 @@ Item {
 			anchors.fill:parent
 			model: samplemodel
 			focus:true
-			delegate: Text{
-				text: name+' '+price
-				color: 'red'
+			delegate: Stockdelegate{
+				stockcode:name
+				stockprice:price
+				stockincrease:increase
+				stockname:name
 			}
+				
+			
+// 			delegate: Text{
+// 				text: name+' '+price
+// 				color: 'red'
+// 			}
 			Component.onCompleted:Stockparser.makeList(samplemodel,plasmoid.configuration.list_of_tags)
 		}
 	}

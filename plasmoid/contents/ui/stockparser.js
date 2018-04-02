@@ -42,3 +42,8 @@ function makeList(id,list_of_tags){
 		id.append({"name":stringarray[i],"price":record[0],"increase":record[1]});
 	}
 }
+
+function FormatPrice(price){
+	var formatedprice=parseFloat(price).toFixed(2);
+	return formatedprice
+}
