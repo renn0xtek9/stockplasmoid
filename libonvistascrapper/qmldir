@@ -1,0 +1,5 @@
+module MyPlugins
+plugin onvistascrapperplugin
+classname BookmarkmodelPlugin
+
+

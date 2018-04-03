@@ -61,3 +61,57 @@ function isIncreaseing(increase)
 		return true
 	return false
 }
+
+
+
+
+
+
+
+
+
+
+
+function callback(response)
+{
+	console.log("callback");
+	
+	var parsed=new DOMParser.parseFromString(response,'text/html');
+	
+	
+// 	var el = document.createElement( 'html' );
+// 	el.innerHTML = response;
+// // 
+// 	el.getElementsByTagName( 'row' );
+	
+	
+	
+	return 0;
+	
+	
+	var child = response.getElementsByClassName('row')[0];
+	console.log(child);
+// 	return 0;
+// 	var bordellength=bordel.length;
+// 	console.log("shit");
+// 	console.log("There are"+bordellength+" elemetns");
+}
+function httpGetAsync2(callback)
+{
+	var theUrl="https://www.onvista.de/derivate/optionsscheine/SG-CALL-TESLA-MOTORS-380-0-01-17-12-21-DE000SG73UZ6?custom=c"
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() { 
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+		callback(xmlHttp.responseText);
+	}
+	xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+	xmlHttp.responseType='document'
+	xmlHttp.send(null);
+}
+
+
+
+
+
+
+

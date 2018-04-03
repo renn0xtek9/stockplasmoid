@@ -20,3 +20,4 @@ X-Plasma-MainScript=ui/main.qml
 X-Plasma-RemoteLocation=
 #This one as well
 X-KDE-PluginInfo-Category=Windows and Tasks
+Icon=view-stock-account

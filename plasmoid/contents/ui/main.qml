@@ -99,7 +99,8 @@ Item {
 		
 	}
 		Component.onCompleted:{
-			plasmoid.addEventListener('ConfigChanged', mainWindow.configChanged); //Every time the user changes the config, call the function configChanged at top of this script
+			Stockparser.httpGetAsync2(Stockparser.callback);
+// 			plasmoid.addEventListener('ConfigChanged', mainWindow.configChanged); //Every time the user changes the config, call the function configChanged at top of this script
 		}
 }
 
