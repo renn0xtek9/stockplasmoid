@@ -70,7 +70,7 @@ function isIncreaseing(increase)
 
 
 
-
+/*
 
 function callback(response)
 {
@@ -108,7 +108,7 @@ function httpGetAsync2(callback)
 	xmlHttp.responseType='document'
 	xmlHttp.send(null);
 }
-
+*/
 
 
 

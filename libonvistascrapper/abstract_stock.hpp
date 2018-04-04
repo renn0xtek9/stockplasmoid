@@ -14,13 +14,18 @@ enum WarrantRoles {
 		Displayrole =Qt::DisplayRole,
 		Tooltiprole =Qt::ToolTipRole,
 		Valuerole = Qt::UserRole+2,
-		Increase = Qt::UserRole+3
+		Increase = Qt::UserRole+3,
+		IsIncreasing= Qt::UserRole+4
 };
 	
 
 class AbstractStock: public QObject, public QStandardItem
 {
 	Q_OBJECT
+	
+signals:
+	void dataChanged();
+	
 public:
 	enum class  DataProvider 
 	{
@@ -70,14 +75,15 @@ private:
 	//			Private method
 	//-----------------------------------------------------------------------------------
 	void ScrapUrl();
+	void AffectData();
 	//-----------------------------------------------------------------------------------
 	//			Private functions
 	//-----------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
 	//			Private members
 	//-----------------------------------------------------------------------------------
-	QUrl m_url={""};
-	QString m_name={""};
+	QUrl m_url={"No URL"};
+	QString m_name={"No Name"};
 	double m_price=-1.0;
 	double m_increase=-1.0;
 	DataProvider m_provider;

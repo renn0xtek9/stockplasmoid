@@ -1,5 +1,5 @@
-module MyPlugins
+module OnvistaScrapper
 plugin onvistascrapperplugin
-classname BookmarkmodelPlugin
+classname WarrantmodelPlugin
 
 

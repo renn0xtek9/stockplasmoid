@@ -49,8 +49,8 @@ qt5_use_modules(${PROJECT_NAME}  Qml)
 set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME}  Qt5::Core Qt5::Qml KF5::IconThemes )
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${QT_IMPORTS_DIR}/MyPlugins/)
-install(FILES   qmldir DESTINATION ${QT_IMPORTS_DIR}/MyPlugins/)
+install(TARGETS ${PROJECT_NAME} DESTINATION ${QT_IMPORTS_DIR}/OnvistaScrapper/)
+install(FILES   qmldir DESTINATION ${QT_IMPORTS_DIR}/OnvistaScrapper/)
 # install(FILES bookmarkmodule.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 add_subdirectory(Tests/)
 

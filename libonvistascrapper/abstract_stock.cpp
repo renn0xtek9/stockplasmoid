@@ -9,9 +9,7 @@ AbstractStock::AbstractStock(QString url, QString name) :QObject(), QStandardIte
 	m_name=name;
 	m_provider=DataProvider::Unknown;
 	ScrapUrl();
-	RetrieveData();
-	setData(m_price,WarrantRoles::Valuerole);
-	setData(m_increase,WarrantRoles::Increase);
+	AffectData();
 	m_retrievetimer=new QTimer(this);
 	QObject::connect(m_retrievetimer,SIGNAL(timeout()),this,SLOT(RetrieveData()));
 }
@@ -100,13 +98,23 @@ void AbstractStock::HttpFinished()
 		qDebug()<<"Content";
 		qDebug()<<content;
 	}
-	setData(m_increase,WarrantRoles::Increase);
-	setData(m_price,WarrantRoles::Valuerole);
-	emitDataChanged();
+	AffectData();
+	
 }
 void AbstractStock::Refresh()
 {
 	m_retrievetimer->start(500);
+}
+void AbstractStock::AffectData()
+{
+	bool is_increasing=true;
+	if (m_increase<0)
+		is_increasing=false;
+	setData(m_increase,WarrantRoles::Increase);
+	setData(m_price,WarrantRoles::Valuerole);
+	setData(is_increasing,WarrantRoles::IsIncreasing);
+	setData(m_name,WarrantRoles::Displayrole);
+	setData(m_url.toDisplayString(),WarrantRoles::Tooltiprole);
 }
 
 

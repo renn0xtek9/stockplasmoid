@@ -16,7 +16,9 @@ PlasmaComponents.ListItem {
 	property bool stockisincreasing: true
 	property int itemheight: 20
 	height: itemheight
-	width: parent.width	
+	width: parent.width
+	anchors.left:parent.left
+	visible: true
 	RowLayout{
 		id: stockitemlayout
 		anchors.fill:parent
