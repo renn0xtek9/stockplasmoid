@@ -94,9 +94,14 @@ Rectangle {
 						onRemovedClicked:{
 							onvistaurlmodel.remove(index);
 						}
+						onItemModified:{
+							plasmoid.configuration.onvistaurllist=Configscripts.DressNewListOfOnvistaModelData(onvistaurlmodel);
+						
+// 							Configscripts.AnalyzeOnvisatUrllist(plasmoid.configuration.onvistaurllist);
+						}
 				}
 				Component.onCompleted:{
-					Configscripts.Populateonvistamodel(onvistaurlmodel)
+					Configscripts.PopulateOnvistaUrlModel(onvistaurlmodel)
 				}
 				onCountChanged:{
 					var cumulheight=0

@@ -11,5 +11,8 @@
     <entry name="alphavantageapikey" type="string">
 	    <default>4ZM6YOXJ7O7M2JFA</default>
     </entry>
+    <entry name="onvistaurllist" type="string">
+	    <default></default>
+    </entry>
   </group>
 </kcfg>

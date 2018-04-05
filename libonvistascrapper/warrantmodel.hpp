@@ -27,6 +27,7 @@ public:
 public slots:
 	Q_INVOKABLE void refreshAll();
 	Q_INVOKABLE void addItem(QString url,QString name);
+	Q_INVOKABLE void clear();
 private slots:
 	void emitRefreshed();
 private:

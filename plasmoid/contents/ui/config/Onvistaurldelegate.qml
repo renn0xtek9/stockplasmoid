@@ -15,6 +15,7 @@ PlasmaComponent.ListItem {
 	property int itemheight: 20
 	
 	signal removedClicked(int index)
+	signal itemModified()
 	
 	RowLayout{
 		id: rootlayout
@@ -35,13 +36,20 @@ PlasmaComponent.ListItem {
 				right:url.left
 				left:parent.left
 			}
-			
+			onEditingFinished:{
+				console.log("Stock Name is accepted");
+				root.itemModified();
+			}
 		}		
 		PlasmaComponent.TextField{
 			id: url
 			text:stockurl
 			clearButtonShown:true
 			Layout.fillWidth:true
+			onEditingFinished:{
+				console.log("Stock url is accepted");
+				root.itemModified();
+			}
 		}
 		PlasmaComponent.Button{
 			width:itemheight
@@ -55,6 +63,7 @@ PlasmaComponent.ListItem {
 				console.log("Button clicked")
 				console.log("index" +index)
 				root.removedClicked(index)
+				root.itemModified();
 			}
 		}		
 	}

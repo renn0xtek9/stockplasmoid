@@ -43,6 +43,12 @@ void Warrantmodel::emitRefreshed()
 {
 	emit refreshed();
 }
+void Warrantmodel::clear()
+{
+	QModelIndex parent;
+	removeRows(0,rowCount(parent));
+}
+
 
 
 

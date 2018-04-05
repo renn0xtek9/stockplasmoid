@@ -9,6 +9,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import OnvistaScrapper 1.0 as OnvistaScrapper
 import "stockparser.js" as Stockparser
+import "config/configscripts.js" as Configscripts
+
 Item {
 	id: mainWindow
 	function clearAndRecreateList(id,list_of_tags)
@@ -36,6 +38,7 @@ Item {
 	}
 	function configChanged()
 	{
+		console.log("In function config changed");
 		clearAndRecreateList(samplemodel,plasmoid.configuration.list_of_tags);
 	}
 	Plasmoid.fullRepresentation:  Item{
@@ -137,9 +140,10 @@ Item {
 				}	
 				function populateOnvistaModel()
 				{
+					Configscripts.PopulateOnvistaItemModel(onvistamodel,plasmoid.configuration.onvistaurllist);
 // 					console.log("Model is populated!");
-					itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/SG-CALL-TESLA-MOTORS-380-0-01-17-12-21-DE000SG73UZ6?custom=c","Warrant TESLA");
-					itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/COMMERZBANK-CALL-DEUTSCHE-BOERSE-40-0-1-13-06-18-DE000CE4R7X6","Warrant COMBANK");	itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/COMMERZBANK-CALL-DEUTSCHE-BOERSE-40-0-1-13-06-18-DE000CE4R7X6","Warrant COMBANK");
+// 					itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/SG-CALL-TESLA-MOTORS-380-0-01-17-12-21-DE000SG73UZ6?custom=c","Warrant TESLA");
+// // 					itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/COMMERZBANK-CALL-DEUTSCHE-BOERSE-40-0-1-13-06-18-DE000CE4R7X6","Warrant COMBANK");	itemmodel.addItem("https://www.onvista.de/derivate/optionsscheine/COMMERZBANK-CALL-DEUTSCHE-BOERSE-40-0-1-13-06-18-DE000CE4R7X6","Warrant COMBANK");
 				}
 				function refresh()
 				{
@@ -173,6 +177,18 @@ Item {
 				derivate_product_view.refresh();
 				derivate_product_view.evaluateHeight();
 			}
-		}		
+		}
 	}
+	
+	Connections{
+		target:plasmoid.configuration
+		onOnvistaurllistChanged:{
+			console.log("Config changed");
+			Configscripts.PopulateOnvistaItemModel(itemmodel,plasmoid.configuration.onvistaurllist);
+		}
+	}
+// 	Component.onCompleted:{
+// // 		console.log("Adding event listner");
+// // 		plasmoid.addEventListener('ConfigChanged',configChanged);
+// 	}
 }
