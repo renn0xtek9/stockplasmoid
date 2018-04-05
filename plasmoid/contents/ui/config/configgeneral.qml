@@ -5,48 +5,106 @@ import QtQuick.Controls 1.0 as QtControls
 import org.kde.plasma.configuration 2.0
 import org.kde.plasma.components 2.0 as PlasmaComponent
 import QtQuick.Layouts 1.3
+import "configscripts.js" as Configscripts
+import org.kde.plasma.extras 2.0 as PlasmaExtras
 Rectangle {
 	id: root
 	color: syspal.window
 // 	width: units.gridUnit * 40
 // 	height: units.gridUnit * 30
 	property alias cfg_list_of_tags: list_of_tags.text
+	
+	ListModel{
+			id: onvistaurlmodel
+	}
+	
+			
 	ColumnLayout {
 		anchors.fill:parent
+		QtControls.Label{
+			id: alphavantagetitle
+			text: "Provide: Alphavantage"
+			font.bold: true
+		}
 		PlasmaComponent.Label{
 			id:tagaslable
 			text:"e.g. AAPL:Apple;GOOGL:Google"
 			color: "black"
-			anchors{
-				left:parent.left
-			}
 		}
 		PlasmaComponent.TextField{
 			id: list_of_tags
-			width:parent.width
+			Layout.fillWidth:true
 			text:plasmoid.configuration.list_of_tags
 			clearButtonShown:true
-			anchors{
-				left:parent.left 
-				right:parent.right
-			}
 		}
 		PlasmaComponent.Label{
 			id: apilabel
 			text: "API Key https://www.alphavantage.co/support/#api-key"
 			color: "black"
-			anchors{
-				left:parent.left
-			}
 		}
 		PlasmaComponent.TextField{
 			id: alphavantageapikey
-			width:parent.width
+			Layout.fillWidth:true
 			text:plasmoid.configuration.alphavantageapikey
 			clearButtonShown:true 
+		}
+		RowLayout{
+			id: onvistatitlelayout		
+			QtControls.Label{
+				id: onvistaprovidertitle
+				text: "Provider: onvista.de"
+				font.bold: true
+				Layout.fillWidth:true
+			}
+			PlasmaComponent.Button{
+				id: addButton 
+				iconName : "list-add"
+				width: 20
+				onClicked:{
+					console.log("Add button clicked");
+					onvistaurlmodel.append({"stock_name":"Name of stock","stock_url":"https://www.onvista.de/..."});
+				}
+			}
+		}
+		PlasmaExtras.ScrollArea
+		{
+			id: mainScrollArea
 			anchors{
 				left:parent.left
 				right:parent.right
+				top:onvistatitlelayout.bottom
+			}
+			Layout.minimumHeight: 50 
+			Layout.preferredHeight: 400
+			Layout.fillHeight: true
+			ListView
+			{
+		// 		Layout.fillWidth:true
+	// 			anchors{
+	// 				left:parent.left
+	// 				right:parent.right
+	// 				top:onvistatitlelayout.bottom
+	// 			}
+				id: onvistaurlview
+				model: onvistaurlmodel
+				delegate: Onvistaurldelegate{
+						itemheight:20
+						stockurl: stock_url
+						stockname: stock_name
+						onRemovedClicked:{
+							onvistaurlmodel.remove(index);
+						}
+				}
+				Component.onCompleted:{
+					Configscripts.Populateonvistamodel(onvistaurlmodel)
+				}
+				onCountChanged:{
+					var cumulheight=0
+					for(var child in onvistaurlview.contentItem.children) {
+						cumulheight+=onvistaurlview.contentItem.children[child].height;
+					}
+					onvistaurlview.height=cumulheight;
+				}
 			}
 		}
 		Item
@@ -54,6 +112,6 @@ Rectangle {
 			id: spacer
 			Layout.fillHeight:true
 		}
-		
 	}
+	
 }
