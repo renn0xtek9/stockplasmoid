@@ -38,7 +38,6 @@ Item {
 	}
 	function configChanged()
 	{
-		console.log("In function config changed");
 		clearAndRecreateList(samplemodel,plasmoid.configuration.list_of_tags);
 	}
 	Plasmoid.fullRepresentation:  Item{
@@ -183,12 +182,8 @@ Item {
 	Connections{
 		target:plasmoid.configuration
 		onOnvistaurllistChanged:{
-			console.log("Config changed");
 			Configscripts.PopulateOnvistaItemModel(itemmodel,plasmoid.configuration.onvistaurllist);
+			itemmodel.refreshAll();
 		}
 	}
-// 	Component.onCompleted:{
-// // 		console.log("Adding event listner");
-// // 		plasmoid.addEventListener('ConfigChanged',configChanged);
-// 	}
 }

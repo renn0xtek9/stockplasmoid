@@ -61,7 +61,6 @@ Rectangle {
 				iconName : "list-add"
 				width: 20
 				onClicked:{
-					console.log("Add button clicked");
 					onvistaurlmodel.append({"stock_name":"Name of stock","stock_url":"https://www.onvista.de/..."});
 				}
 			}
@@ -79,12 +78,6 @@ Rectangle {
 			Layout.fillHeight: true
 			ListView
 			{
-		// 		Layout.fillWidth:true
-	// 			anchors{
-	// 				left:parent.left
-	// 				right:parent.right
-	// 				top:onvistatitlelayout.bottom
-	// 			}
 				id: onvistaurlview
 				model: onvistaurlmodel
 				delegate: Onvistaurldelegate{
@@ -95,9 +88,8 @@ Rectangle {
 							onvistaurlmodel.remove(index);
 						}
 						onItemModified:{
+							onvistaurlmodel.get(index)[key]=newvalue;
 							plasmoid.configuration.onvistaurllist=Configscripts.DressNewListOfOnvistaModelData(onvistaurlmodel);
-						
-// 							Configscripts.AnalyzeOnvisatUrllist(plasmoid.configuration.onvistaurllist);
 						}
 				}
 				Component.onCompleted:{

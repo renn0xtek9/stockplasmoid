@@ -15,7 +15,7 @@ PlasmaComponent.ListItem {
 	property int itemheight: 20
 	
 	signal removedClicked(int index)
-	signal itemModified()
+	signal itemModified(int index,string key, string newvalue)
 	
 	RowLayout{
 		id: rootlayout
@@ -37,8 +37,7 @@ PlasmaComponent.ListItem {
 				left:parent.left
 			}
 			onEditingFinished:{
-				console.log("Stock Name is accepted");
-				root.itemModified();
+				root.itemModified(index,"stock_name",text);
 			}
 		}		
 		PlasmaComponent.TextField{
@@ -47,8 +46,7 @@ PlasmaComponent.ListItem {
 			clearButtonShown:true
 			Layout.fillWidth:true
 			onEditingFinished:{
-				console.log("Stock url is accepted");
-				root.itemModified();
+				root.itemModified(index,"stock_url",text);
 			}
 		}
 		PlasmaComponent.Button{
@@ -60,8 +58,6 @@ PlasmaComponent.ListItem {
 			iconName: "edit-delete"
 			tooltip: "Remove this entry" 
 			onClicked:{
-				console.log("Button clicked")
-				console.log("index" +index)
 				root.removedClicked(index)
 				root.itemModified();
 			}
